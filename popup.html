@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STATEMONTH</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+
+  <!-- ─── SCREEN 1: UPLOAD ─────────────────────────── -->
+  <div id="screen-upload" class="screen active">
+    <div class="upload-logo">
+      <span class="logo-text">STATEMONTH</span>
+      <span class="logo-sub">YOUR MONTHLY STATEMENT. NO REFUNDS.</span>
+    </div>
+
+    <div class="drop-zone" id="drop-zone">
+      <input type="file" id="file-input" accept=".csv" hidden>
+      <div class="drop-icon">🧾</div>
+      <p class="drop-title">Drop your bank CSV here</p>
+      <p class="drop-sub">or <span class="browse-link" id="browse-btn">click to browse</span></p>
+    </div>
+
+    <p class="bank-note">Works with Chase · Bank of America · Wells Fargo · Capital One · US Bank · and more!</p>
+
+    <p class="how-link" id="how-link">How do I get my CSV? ↗</p>
+
+    <div id="how-tooltip" class="how-tooltip hidden">
+      <p><strong>Chase:</strong> Accounts → Activity → Download (CSV)</p>
+      <p><strong>BoA:</strong> Accounts → Download → CSV</p>
+      <p><strong>Capital One:</strong> Transactions → Download (All Transactions)</p>
+      <p><strong>US Bank:</strong> Activity → Transactions → CSV</p>
+      <p><strong>Wells Fargo:</strong> Accounts → Download Account Activity → CSV</p>
+    </div>
+  </div>
+
+  <!-- ─── SCREEN 2: PROCESSING ─────────────────────── -->
+  <div id="screen-processing" class="screen">
+    <div class="processing-content">
+      <div class="receipt-printing" id="receipt-anim">
+        <div class="printing-receipt"></div>
+      </div>
+      <p class="processing-text">PRINTING YOUR STATEMENT...</p>
+      <p class="processing-sub">crunching the numbers</p>
+    </div>
+  </div>
+
+  <!-- ─── SCREEN 3: RECEIPT ────────────────────────── -->
+  <div id="screen-receipt" class="screen">
+    <div class="receipt-scroll" id="receipt-scroll">
+      <div class="receipt" id="receipt">
+
+        <svg class="torn-edge top" viewBox="0 0 340 24" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path d="M0,24 L0,18 C10,18 10,8 20,8 C30,8 30,16 40,16 C50,16 50,6 60,6 C70,6 70,16 80,16 C90,16 90,8 100,8 C110,8 110,18 120,18 C130,18 130,8 140,8 C150,8 150,16 160,16 C170,16 170,6 180,6 C190,6 190,14 200,14 C210,14 210,6 220,6 C230,6 230,16 240,16 C250,16 250,8 260,8 C270,8 270,18 280,18 C290,18 290,8 300,8 C310,8 310,14 320,14 C330,14 330,8 340,8 L340,24 Z" fill="#f5f0e8"/>
+        </svg>
+
+        <div class="receipt-body">
+
+          <div class="receipt-header">
+            <div class="receipt-logo">STATEMONTH</div>
+            <div class="receipt-tagline" id="receipt-tagline">YOUR MONTHLY MONEY MIRROR</div>
+            <div class="receipt-meta" id="receipt-meta"></div>
+          </div>
+
+          <div class="divider-dashed"></div>
+
+          <div class="personality-section">
+            <div class="this-month-label">THIS MONTH YOU WERE</div>
+            <div class="personality-title" id="personality-title"></div>
+            <div class="personality-quote" id="personality-quote"></div>
+          </div>
+
+          <div class="divider-dashed"></div>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-label">TRANSACTIONS</div>
+              <div class="stat-value" id="stat-count"></div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">AVG PER DAY</div>
+              <div class="stat-value" id="stat-avg"></div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">TOP CATEGORY</div>
+              <div class="stat-value" id="stat-top-cat"></div>
+              <div class="stat-sub" id="stat-top-cat-pct"></div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">MOST VISITED</div>
+              <div class="stat-value" id="stat-most-visited"></div>
+              <div class="stat-sub" id="stat-most-visited-count"></div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">GUILTY PLEASURE</div>
+              <div class="stat-value" id="stat-guilty"></div>
+              <div class="stat-sub" id="stat-guilty-sub"></div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">ANNUAL SPEND</div>
+              <div class="stat-value" id="stat-annual"></div>
+              <div class="stat-sub" id="stat-annual-sub"></div>
+            </div>
+            <div class="stat-box stat-box--wide">
+              <div class="stat-label">BIGGEST SPLURGE</div>
+              <div class="stat-value" id="stat-max"></div>
+              <div class="stat-sub" id="stat-max-detail"></div>
+            </div>
+          </div>
+
+          <div class="divider-dashed"></div>
+
+          <div class="breakdown-section">
+            <div class="section-label">SPENDING BREAKDOWN</div>
+            <div id="breakdown-list"></div>
+          </div>
+
+          <div class="divider-dashed"></div>
+
+          <div class="heatmap-section">
+            <div class="section-label">SPENDING HEATMAP</div>
+            <div class="heatmap-month-label" id="heatmap-month-label"></div>
+            <div class="heatmap-grid" id="heatmap-grid"></div>
+          </div>
+
+          <div class="divider-dashed"></div>
+
+          <div class="totals-section">
+            <div class="total-row">
+              <span>SUBTOTAL</span>
+              <span id="total-subtotal"></span>
+            </div>
+            <div class="total-row">
+              <span>TRANSACTIONS</span>
+              <span id="total-count"></span>
+            </div>
+            <div class="total-row">
+              <span>AVG PER DAY</span>
+              <span id="total-avg"></span>
+            </div>
+
+          </div>
+
+          <div class="divider-double"></div>
+
+          <div class="grand-total-row">
+            <span>TOTAL</span>
+            <span id="grand-total"></span>
+          </div>
+
+          <div class="divider-dashed"></div>
+
+          <div class="card-section">
+            <div class="card-line" id="card-number"></div>
+            <div class="card-line" id="card-auth"></div>
+          </div>
+
+          <div class="divider-dashed"></div>
+
+          <div class="thank-you">THANK YOU FOR SHOPPING WITH US!</div>
+
+          <div class="barcode-wrap">
+            <div class="barcode" id="barcode"></div>
+          </div>
+
+          <div class="receipt-url">statemonth.io</div>
+
+        </div><!-- /receipt-body -->
+
+        <svg class="torn-edge bottom" viewBox="0 0 340 24" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path d="M0,0 L0,6 C10,6 10,16 20,16 C30,16 30,8 40,8 C50,8 50,18 60,18 C70,18 70,8 80,8 C90,8 90,16 100,16 C110,16 110,6 120,6 C130,6 130,16 140,16 C150,16 150,8 160,8 C170,8 170,18 180,18 C190,18 190,10 200,10 C210,10 210,18 220,18 C230,18 230,8 240,8 C250,8 250,16 260,16 C270,16 270,6 280,6 C290,6 290,16 300,16 C310,16 310,10 320,10 C330,10 330,16 340,16 L340,0 Z" fill="#f5f0e8"/>
+        </svg>
+
+      </div><!-- /receipt -->
+    </div><!-- /receipt-scroll -->
+
+    <div class="action-bar">
+      <button class="btn btn-secondary" id="btn-upload-new">↺ NEW CSV</button>
+      <button class="btn btn-primary" id="btn-save-pdf">⬇ SAVE AS PDF</button>
+    </div>
+  </div>
+
+  <!-- ─── ERROR TOAST ───────────────────────────────── -->
+  <div id="error-toast" class="error-toast hidden"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

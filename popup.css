@@ -1,0 +1,767 @@
+/* ─── FONTS & RESET ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 400px;
+  height: 580px;
+  overflow: hidden;
+  background: #111111;
+  font-family: 'DM Sans', sans-serif;
+  color: #f5f0e8;
+}
+
+/* ─── SCREENS ───────────────────────────────────────── */
+.screen {
+  display: none;
+  width: 400px;
+  height: 580px;
+  flex-direction: column;
+  background: #111111;
+}
+.screen.active { display: flex; }
+
+/* ─── SCREEN 1: UPLOAD ──────────────────────────────── */
+#screen-upload {
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 24px 28px 20px;
+}
+
+.upload-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.logo-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 42px;
+  letter-spacing: 3px;
+  color: #f5f0e8;
+  line-height: 1;
+}
+
+.logo-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: #888;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.drop-zone {
+  width: 100%;
+  border: 1.5px dashed #444;
+  border-radius: 4px;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  background: transparent;
+}
+.drop-zone:hover,
+.drop-zone.dragover {
+  border-color: #f5f0e8;
+  background: rgba(245, 240, 232, 0.04);
+}
+
+.drop-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.drop-title {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  color: #f5f0e8;
+  text-align: center;
+}
+
+.drop-sub {
+  font-size: 11px;
+  color: #666;
+}
+
+.browse-link {
+  color: #f5f0e8;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.browse-link:hover { color: #fff; }
+
+.bank-note {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: #555;
+  text-align: center;
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+}
+
+.how-link {
+  font-size: 11px;
+  color: #555;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.how-link:hover { color: #f5f0e8; }
+
+.how-tooltip {
+  width: 100%;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 12px 14px;
+  font-size: 10px;
+  color: #888;
+  line-height: 1.8;
+}
+.how-tooltip p { margin: 0; }
+.how-tooltip strong { color: #f5f0e8; }
+.how-tooltip.hidden { display: none; }
+
+/* ─── SCREEN 2: PROCESSING ──────────────────────────── */
+#screen-processing {
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.processing-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.receipt-printing {
+  width: 120px;
+  height: 80px;
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.printing-receipt {
+  position: absolute;
+  bottom: -100%;
+  left: 4px;
+  right: 4px;
+  height: 200px;
+  background: #f5f0e8;
+  border-radius: 1px;
+  animation: printSlide 1.4s ease-in-out infinite;
+}
+
+@keyframes printSlide {
+  0%   { bottom: -200px; }
+  60%  { bottom: 10px; }
+  100% { bottom: 10px; opacity: 0; }
+}
+
+.processing-text {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  color: #f5f0e8;
+  letter-spacing: 2px;
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.processing-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: #555;
+}
+
+/* ─── SCREEN 3: RECEIPT ─────────────────────────────── */
+#screen-receipt {
+  overflow: hidden;
+}
+
+.receipt-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px 20px 8px;
+  display: flex;
+  justify-content: center;
+  scrollbar-width: thin;
+  scrollbar-color: #333 transparent;
+}
+.receipt-scroll::-webkit-scrollbar { width: 4px; }
+.receipt-scroll::-webkit-scrollbar-track { background: transparent; }
+.receipt-scroll::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+/* ─── RECEIPT PAPER ─────────────────────────────────── */
+.receipt {
+  width: 340px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));
+}
+
+.torn-edge {
+  display: block;
+  width: 340px;
+  height: 24px;
+}
+.torn-edge.top  { margin-bottom: -1px; }
+.torn-edge.bottom { margin-top: -1px; }
+
+.receipt-body {
+  background-color: #f5f0e8;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 20px,
+    rgba(0,0,0,0.018) 20px,
+    rgba(0,0,0,0.018) 21px
+  );
+  color: #1a1a1a;
+  padding: 4px 0 16px;
+}
+
+/* ─── RECEIPT HEADER ────────────────────────────────── */
+.receipt-header {
+  padding: 12px 24px 10px;
+  text-align: center;
+}
+
+.receipt-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  letter-spacing: 4px;
+  line-height: 1;
+  color: #1a1a1a;
+}
+
+.receipt-tagline {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #888;
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+
+.receipt-meta {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: #888;
+  margin-top: 6px;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+
+/* ─── DIVIDERS ──────────────────────────────────────── */
+.divider-dashed {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: #bbb;
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 6px 24px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.divider-dashed::before {
+  content: "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+}
+
+.divider-double {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px;
+  color: #999;
+  padding: 2px 24px 4px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.divider-double::before {
+  content: "===================================";
+}
+
+/* ─── PERSONALITY SECTION ───────────────────────────── */
+.personality-section {
+  padding: 12px 24px;
+  text-align: center;
+}
+
+.this-month-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 2px;
+  color: #999;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.personality-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px;
+  letter-spacing: 2px;
+  color: #1a1a1a;
+  line-height: 1.1;
+}
+
+.personality-quote {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9.5px;
+  color: #666;
+  font-style: italic;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* ─── STATS GRID ────────────────────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin: 0 24px;
+  background: #d4cec3;
+  border: 1px solid #d4cec3;
+}
+
+.stat-box {
+  background: #f5f0e8;
+  padding: 10px 10px 8px;
+}
+
+.stat-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 1.5px;
+  color: #999;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.stat-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: #1a1a1a;
+  letter-spacing: 1px;
+  line-height: 1;
+  display: block;
+}
+
+/* ─── SPENDING BREAKDOWN ────────────────────────────── */
+.breakdown-section {
+  padding: 4px 24px 8px;
+}
+
+.section-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: #999;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.breakdown-item {
+  margin-bottom: 10px;
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 3px;
+}
+
+.breakdown-name {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10.5px;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.breakdown-amt {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10.5px;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+}
+
+.breakdown-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breakdown-bar-track {
+  flex: 1;
+  height: 5px;
+  background: #ddd8ce;
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.breakdown-bar-fill {
+  height: 100%;
+  background: #1a1a1a;
+  border-radius: 1px;
+  transition: width 0.4s ease;
+}
+
+.breakdown-pct {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8.5px;
+  color: #999;
+  min-width: 28px;
+  text-align: right;
+}
+
+/* ─── SPENDING HEATMAP ──────────────────────────────── */
+.heatmap-section {
+  padding: 4px 24px 10px;
+}
+
+.heatmap-month-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 7.5px;
+  color: #555;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+/* Day-of-week header labels */
+.heatmap-dow {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 5.5px;
+  color: #777;
+  text-align: center;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  padding-bottom: 2px;
+}
+
+/* Individual day cells */
+.heatmap-cell {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  position: relative;
+  background: #ddd8ce;   /* default — overridden inline by JS */
+}
+
+/* Day with zero spending — outline only, star centered inside via JS */
+.heatmap-zero {
+  background: transparent !important;
+  border: 1px dashed #aaa39a;
+}
+
+/* Spacer before the 1st of the month */
+.heatmap-empty {
+  background: transparent !important;
+}
+
+/* Tiny day number in the top-left corner */
+.heatmap-day-num {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 5px;
+  color: rgba(26, 26, 26, 0.6);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Star centered inside zero-spend cells */
+.heatmap-star {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.75;
+}
+
+/* Note line below the heatmap grid */
+.heatmap-no-spend-note {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px;
+  color: #666;
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 10px;
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.heatmap-no-spend-note strong {
+  color: #1a1a1a;
+  font-weight: normal; /* Share Tech Mono doesn't have bold — normal looks sharper */
+}
+
+.heatmap-note-star {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ─── TOTALS ────────────────────────────────────────── */
+.totals-section {
+  padding: 4px 24px 6px;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 0;
+}
+
+.grand-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+  color: #1a1a1a;
+  padding: 4px 24px 6px;
+}
+
+/* ─── CARD SECTION ──────────────────────────────────── */
+.card-section {
+  padding: 4px 24px 6px;
+}
+
+.card-line {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.8;
+}
+
+/* ─── THANK YOU ─────────────────────────────────────── */
+.thank-you {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #888;
+  text-align: center;
+  padding: 8px 24px 6px;
+  text-transform: uppercase;
+}
+
+/* ─── STAT SUB-LINE ─────────────────────────────────── */
+.stat-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 7px;
+  color: #888;
+  line-height: 1.5;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  word-break: break-word;
+}
+
+/* Biggest splurge box spans full width so the sentence has room */
+.stat-box--wide {
+  grid-column: 1 / -1;
+  border-top: 1px solid #d4cec3;
+}
+
+/* ─── CATEGORY ICONS ────────────────────────────────── */
+.cat-icon {
+  display: inline-block;
+  vertical-align: middle;
+  object-fit: contain;
+  flex-shrink: 0;
+  opacity: 0.82;
+}
+
+.cat-emoji {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+#stat-top-cat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+}
+
+/* ─── BARCODE ───────────────────────────────────────── */
+.barcode-wrap {
+  padding: 6px 24px 4px;
+  display: flex;
+  justify-content: center;
+}
+
+.barcode {
+  display: flex;
+  align-items: flex-end;
+  height: 44px;
+  gap: 0;
+  overflow: hidden;
+}
+
+.receipt-url {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px;
+  color: #aaa;
+  text-align: center;
+  padding: 2px 24px 8px;
+  letter-spacing: 1px;
+}
+
+/* ─── ACTION BAR ────────────────────────────────────── */
+.action-bar {
+  flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px 12px;
+  background: #111;
+  border-top: 1px solid #222;
+}
+
+.btn {
+  flex: 1;
+  padding: 9px 8px;
+  border: none;
+  border-radius: 3px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  text-transform: uppercase;
+}
+.btn:hover  { opacity: 0.85; }
+.btn:active { transform: scale(0.97); }
+
+.btn-secondary {
+  background: #222;
+  color: #f5f0e8;
+  border: 1px solid #444;
+}
+
+.btn-primary {
+  background: #f5f0e8;
+  color: #111;
+}
+
+/* ─── ERROR TOAST ───────────────────────────────────── */
+.error-toast {
+  position: fixed;
+  bottom: 60px;
+  left: 12px;
+  right: 12px;
+  background: #c0392b;
+  color: #fff;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  padding: 10px 14px;
+  border-radius: 4px;
+  z-index: 100;
+  text-align: center;
+  transition: opacity 0.3s;
+}
+.error-toast.hidden { display: none; }
+
+/* ─── PRINT-TAB MODE ────────────────────────────────── */
+/* Applied when popup.html is opened as a full tab (?print=1) */
+body.print-mode {
+  width: 100% !important;
+  height: auto !important;
+  overflow: auto !important;
+  background: #222 !important;
+  display: flex !important;
+  justify-content: center !important;
+  padding: 32px 0 48px !important;
+}
+
+body.print-mode #screen-receipt {
+  height: auto !important;
+  overflow: visible !important;
+  width: auto !important;
+}
+
+body.print-mode .receipt-scroll {
+  overflow: visible !important;
+  height: auto !important;
+}
+
+body.print-mode .action-bar {
+  display: none !important;
+}
+
+/* ─── PRINT STYLES ──────────────────────────────────── */
+@media print {
+  @page { margin: 0.4in; size: 4in 11in; }
+
+  html, body {
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+
+  #screen-upload,
+  #screen-processing,
+  .action-bar {
+    display: none !important;
+  }
+
+  #screen-receipt {
+    display: block !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  .receipt-scroll {
+    overflow: visible !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  .receipt {
+    width: 340px !important;
+    margin: 0 auto !important;
+    filter: none !important;
+  }
+
+  .receipt-body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

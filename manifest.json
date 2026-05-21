@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "STATEMONTH",
+  "description": "Your monthly spending recap. Like Spotify Wrapped for your bank account.",
+  "version": "1.0.0",
+  "permissions": ["storage", "alarms", "notifications", "tabs"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "STATEMONTH",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; img-src 'self' data:"
+  }
+}
