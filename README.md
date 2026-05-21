@@ -45,7 +45,7 @@ STATEMONTH isn't on the Chrome Web Store yet. To load it manually:
 2. Open Chrome and navigate to `chrome://extensions`
 3. Enable **Developer mode** (toggle in the top right)
 4. Click **Load unpacked**
-5. Select the `StateMonth2` folder
+5. Select the `statemonth` folder
 6. The STATEMONTH icon will appear in your Chrome toolbar
 
 > After making any changes to the source files, click the **↺ reload** button on the extensions page to apply them.
