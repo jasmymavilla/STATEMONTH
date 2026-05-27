@@ -12,13 +12,14 @@ const CATEGORIES = [
       'publix', 'wegmans', 'supermarket', 'aldi', 'lidl', 'costco', "sam's club",
       'walmart', 'target', 'heb ', 'food lion', 'stop & shop', 'giant food',
       'meijer', 'sprouts', 'fresh market', 'food 4 less', 'winco', 'market basket',
+      'h mart', 'aldi',
     ],
   },
   {
     name: 'Food & Drinks', emoji: '🍔', icon: 'category-icons/icon-dining.svg',
     keywords: [
       'ubereats', 'uber eats', 'doordash', 'grubhub', 'seamless', 'postmates',
-      'restaurant', 'cafe', 'coffee', 'starbucks', 'mcdonald', 'burger',
+      'restaurant', 'cafe', 'coffee', 'starbucks', 'mcdonalds', 'burger',
       'pizza', 'sushi', 'taco', 'chipotle', 'subway', 'door dash',
       'chick-fil', "wendy's", 'popeyes', 'dunkin', 'panera', 'panda express',
       'kfc', 'domino', 'five guys', 'shake shack', 'wingstop', "raising cane",
@@ -36,6 +37,7 @@ const CATEGORIES = [
       'united air', 'southwest', 'jetblue', 'spirit air', 'frontier air',
       'rental car', 'hertz', 'enterprise rent', 'avis', 'mta ', 'cta ',
       'bart ', 'septa', 'gas station', 'autozone', 'jiffy lube', 'oil change',
+      'bus', 'transit',
     ],
   },
   {
@@ -54,10 +56,11 @@ const CATEGORIES = [
     keywords: [
       'amazon', 'ebay', 'etsy', 'nike', 'adidas', 'h&m', 'zara', 'gap ',
       'old navy', 'banana republic', 'forever 21', 'nordstrom', "macy's",
-      'bloomingdale', 'tj maxx', 'marshalls', 'ross ', 'home depot', "lowe's",
-      'ikea', 'best buy', 'apple store', 'shein', 'asos', 'fashion nova',
-      'uniqlo', 'anthropologie', 'urban outfitter', 'free people', 'wayfair',
-      'chewy', 'petsmart', 'petco', 'dollar tree', 'five below',
+      'hollister', 'tj maxx', 'marshalls', 'ross ', 'home depot', "lowe's",
+      'ikea', 'best buy', 'apple store', 'shein', 'asos', 'aeropostale',
+      'uniqlo', 'anthropologie', 'urban outfitters', 'free people', 'wayfair',
+      'chewy', 'petsmart', 'petco', 'dollar tree', 'five below', 'ulta', 'sephora',
+
     ],
   },
   {
@@ -67,7 +70,7 @@ const CATEGORIES = [
       'clinic', 'dental', 'vision', 'gym', 'fitness', 'planet fitness',
       'anytime fitness', 'la fitness', '24 hour fitness', 'equinox',
       'yoga', 'pilates', 'physical therapy', 'urgent care', 'medical',
-      'health', 'wellness', 'vitamin', 'supplement',
+      'health', 'wellness', 'vitamin', 'supplement', 'dermatologist',
     ],
   },
   {
